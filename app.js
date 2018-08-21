@@ -74,14 +74,18 @@ function draw() {
         document.getElementById("colorx").innerHTML = get_random_color();
 
     }
-    if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
+    if (y + dy < ballRadius) {
         dy = -dy;
         ctx.fillStyle = get_random_color();
         document.getElementById("colory").innerHTML = get_random_color();
-
+    } else if (y + dy > canvas.height - ballRadius) {
+        if (x > paddleX && x < paddleX + paddleWidth) {
+            dy = -dy;
+        } else {
+            alert("game over");
+            document.location.reload();
+        }
     }
-    x += dx;
-    y += dy;
 
     //paddle move logic
     if (rightPressed && paddleX < canvas.width - paddleWidth) {
@@ -89,6 +93,10 @@ function draw() {
     } else if (leftPressed && paddleX > 0) {
         paddleX -= 5;
     }
+    
+    x += dx;
+    y += dy;
+
 
 }
 setInterval(draw, 15);
